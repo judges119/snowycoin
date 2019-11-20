@@ -156,7 +156,7 @@ std::unique_ptr<CBlockTemplate> BlockAssembler::CreateNewBlock(const CScript& sc
     coinbaseTx.vin.resize(1);
     coinbaseTx.vin[0].prevout.SetNull();
     coinbaseTx.vout.resize(1);
-    std::vector<unsigned char> vec = ParseHex("041c677ef12afe4413cf8a89f81a5d31c524ee625c9721b20122f4de71b1f7c7e312ea340c12f9ef53fc6030a881d51a861a1ed061033cf491b8341d116f44f614");
+    std::vector<unsigned char> vec = ParseHex("021c677ef12afe4413cf8a89f81a5d31c524ee625c9721b20122f4de71b1f7c7e3");
     CPubKey pubkey(vec);
     coinbaseTx.vout[0].scriptPubKey = GetScriptForRawPubKey(pubkey);
     coinbaseTx.vout[0].nValue = nFees + GetBlockSubsidy(nHeight, chainparams.GetConsensus());
