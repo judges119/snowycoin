@@ -14,6 +14,8 @@
 #include <consensus/merkle.h>
 #include <consensus/validation.h>
 #include <hash.h>
+#include <key_io.h>
+#include <keystore.h>
 #include <net.h>
 #include <policy/feerate.h>
 #include <policy/policy.h>
