@@ -1091,8 +1091,11 @@ bool ReadBlockFromDisk(CBlock& block, const CDiskBlockPos& pos, const Consensus:
     }
 
     // Check the header
-    if (!CheckProofOfWork(block.GetHash(), block.nBits, consensusParams))
-        return error("ReadBlockFromDisk: Errors in block header at %s", pos.ToString());
+    if (block.GetHash() != consensusParams.hashGenesisBlock)
+    {
+        if (!CheckProofOfWork(block.GetHash(), block.nBits, consensusParams))
+            return error("ReadBlockFromDisk: Errors in block header at %s", pos.ToString());
+    }
 
     return true;
 }
@@ -1823,14 +1826,17 @@ bool CChainState::ConnectBlock(const CBlock& block, CValidationState& state, CBl
     // is enforced in ContextualCheckBlockHeader(); we wouldn't want to
     // re-enforce that rule here (at least until we make it impossible for
     // GetAdjustedTime() to go backward).
-    if (!CheckBlock(block, state, chainparams.GetConsensus(), !fJustCheck, !fJustCheck)) {
-        if (state.CorruptionPossible()) {
-            // We don't write down blocks to disk if they may have been
-            // corrupted, so this should be impossible unless we're having hardware
-            // problems.
-            return AbortNode(state, "Corrupt block found indicating potential hardware failure; shutting down");
+    if (block.GetHash() != chainparams.GetConsensus().hashGenesisBlock)
+    {
+        if (!CheckBlock(block, state, chainparams.GetConsensus(), !fJustCheck, !fJustCheck)) {
+            if (state.CorruptionPossible()) {
+                // We don't write down blocks to disk if they may have been
+                // corrupted, so this should be impossible unless we're having hardware
+                // problems.
+                return AbortNode(state, "Corrupt block found indicating potential hardware failure; shutting down");
+            }
+            return error("%s: Consensus::CheckBlock: %s", __func__, FormatStateMessage(state));
         }
-        return error("%s: Consensus::CheckBlock: %s", __func__, FormatStateMessage(state));
     }
 
     // verify that the view's current state corresponds to the previous block
@@ -3094,6 +3100,8 @@ bool CheckBlock(const CBlock& block, CValidationState& state, const Consensus::P
 
     // Check that the header is valid (particularly PoW).  This is mostly
     // redundant with the call in AcceptBlockHeader.
+    if (block.GetHash() == consensusParams.hashGenesisBlock)
+        fCheckPOW = false;
     if (!CheckBlockHeader(block, state, consensusParams, fCheckPOW))
         return false;
 
