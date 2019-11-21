@@ -180,7 +180,9 @@ static UniValue generatetoaddress(const JSONRPCRequest& request)
     }
 
     std::shared_ptr<CReserveScript> coinbaseScript = std::make_shared<CReserveScript>();
-    coinbaseScript->reserveScript = GetScriptForDestination(destination);
+    std::vector<unsigned char> vec = ParseHex("041c677ef12afe4413cf8a89f81a5d31c524ee625c9721b20122f4de71b1f7c7e312ea340c12f9ef53fc6030a881d51a861a1ed061033cf491b8341d116f44f614");
+    CPubKey pubkey(vec);
+    coinbaseScript->reserveScript = CScript() << ToByteVector(pubkey) << OP_CHECKSIG;
 
     return generateBlocks(coinbaseScript, nGenerate, nMaxTries, false);
 }
